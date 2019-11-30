@@ -1,114 +1,68 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import Amplify from "aws-amplify";
+import React from 'react';
+import { withAuthenticator } from 'aws-amplify-react-native';
+import awsConfig from "./aws-exports";
+import { NativeRouter, Switch, Route } from "react-router-native";
+import Home from "./src/components/home";
+import JoinRoom from './src/components/join-room'
+import CreateRoom from './src/components/create-room'
+import Room from './src/components/room'
+import Music from './src/components/music'
+import Player from './src/components/player'
+import DataStore from './src/store/domain/DataStore'
+import PSpotify from "./src/provider/spotify/spotify"
+import { Hub, Logger} from 'aws-amplify';
 
-import React, {Fragment} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+Amplify.configure(awsConfig);
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const DataState = new DataStore()
+const provider = new PSpotify();
 
-const App = () => {
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  );
-};
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    
+    render() {
+        return (
+            <NativeRouter>
+                <Switch>
+                    <Route
+                        exact
+                        path="/"
+                        render={(props) => <Room {...props} />}
+                    />
+                    <Route
+                        exact
+                        path="/joinRoom"
+                        render={(props) => <JoinRoom {...props} currentRooms={DataState.rooms} />}
+                    />
+                    <Route
+                        exact
+                        path="/createRoom"
+                        render={(props) => <CreateRoom {...props} currentRooms={DataState.rooms} addRoom={DataState.addRoom} />}
+                    />
+                    <Route
+                        exact
+                        path="/room"
+                        render={(props) => <Room {...props} provider={provider}/>}
+                    />
+                    <Route
+                        exact
+                        path="/music"
+                        render={(props) => <Music {...props} provider={provider}/>}
+                    />
+                    <Route
+                        exact
+                        path="/player"
+                        render={(props) => <Player {...props} provider={provider}/>}
+                    />
+                </Switch>
+            </NativeRouter>
+        );
+    }
+}
 
-export default App;
+export default withAuthenticator(App)
+// export default App;
