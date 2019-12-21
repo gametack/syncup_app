@@ -1,1 +1,1 @@
-# syncup_app
+# DJMe-app
