@@ -31,7 +31,7 @@ class App extends React.Component {
                     <Route
                         exact
                         path="/"
-                        render={(props) => <Room {...props} />}
+                        render={(props) => <Home {...props} />}
                     />
                     <Route
                         exact

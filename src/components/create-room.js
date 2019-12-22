@@ -30,7 +30,7 @@ export default class CreateRoom extends React.Component {
             // let user ={
             //     cognitoId = userSession.
             // }
-            const user = await API.graphql(graphqlOperation(mutations.createUser, { input: roomEntry }));
+            // const user = await API.graphql(graphqlOperation(mutations.createUser, { input: roomEntry }));
             
             const newRoom = await API.graphql(graphqlOperation(mutations.createRoom, { input: roomEntry }));
             console.log(newRoom);
