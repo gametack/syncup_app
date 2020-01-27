@@ -1,1 +1,0 @@
-# syncup_app
