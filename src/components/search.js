@@ -27,10 +27,6 @@ export default class Search extends PureComponent {
 
   providerSearch = async () => {
     query = this.state.search
-    if (!query || query.trim().length === 0) {
-      query = '';
-      return;
-    }
     try {
       data = await this.provider.search(query, ["track"]);
       this.setState({

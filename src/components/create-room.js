@@ -2,12 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Provider as PaperProvider, Button, Text, TextInput } from 'react-native-paper';
 import { styles, theme } from '../../global-styles'
-import Amplify, { Auth, API, graphqlOperation } from "aws-amplify";
-import * as mutations from "../graphql/mutations";
-import awsConfig from "../../aws-exports";
 
-
-Amplify.configure(awsConfig);
 export default class CreateRoom extends React.Component {
     constructor(props) {
         super(props);
@@ -16,27 +11,10 @@ export default class CreateRoom extends React.Component {
         }
     }
 
-    putRoom = async () => {
+    putRoom = () => {
         let newRoom = {
             id: Math.floor(Math.random() * 200),
             name: this.state.name,
-        }
-        let roomEntry = {
-            name: this.state.name,
-            description: "test"
-        }
-        try {
-            const user = await Auth.currentAuthenticatedUser()
-            // let user ={
-            //     cognitoId = userSession.
-            // }
-            // const user = await API.graphql(graphqlOperation(mutations.createUser, { input: roomEntry }));
-            
-            const newRoom = await API.graphql(graphqlOperation(mutations.createRoom, { input: roomEntry }));
-            console.log(newRoom);
-        }
-        catch (error) {
-            console.log(error.message)
         }
 
         this.props.addRoom(newRoom)
