@@ -8,51 +8,51 @@ import HomeScreen from '../screens/Home';
 import MainSettingsScreen from '../screens/Settings/Main';
 
 const HomeView = ({ navigation }) => (
-	<HomeScreen navigation={navigation} />
+    <HomeScreen navigation={navigation} />
 );
 
 const SettingsView = ({ navigation }) => (
-	<MainSettingsScreen navigation={navigation} />
+    <MainSettingsScreen navigation={navigation} />
 );
 
 const Stack = createStackNavigator();
 
 function HomeStack() {
-	return (
-		<Stack.Navigator>
-			<Stack.Screen
-				name="Home"
-				component={HomeView}
-				options={({ navigation }) => ({
-					headerRight: () => (
-						<Icon
-							name="settings"
-							size={30}
-							type="material"
-							onPress={() => navigation.navigate('Settings')}
-						/>
-					),
-					headerTitle: ""
-				})} />
-			<Stack.Screen
-				name="Settings"
-				component={SettingsView} />
-			<Stack.Screen
-				name="StageSN"
-				component={StageSN}
-				options={{
-					headerLeft: () => (undefined),
-					headerTitle: () => (undefined),
-				}} />
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Home"
+                component={HomeView}
+                options={({ navigation }) => ({
+                    headerRight: () => (
+                        <Icon
+                            name="settings"
+                            size={30}
+                            type="material"
+                            onPress={() => navigation.navigate('Settings')}
+                        />
+                    ),
+                    headerTitle: ""
+                })} />
+            <Stack.Screen
+                name="Settings"
+                component={SettingsView} />
+            <Stack.Screen
+                name="StageSN"
+                component={StageSN}
+                options={{
+                    headerLeft: () => (undefined),
+                    headerTitle: () => (undefined),
+                }} />
 
-		</Stack.Navigator>
-	);
+        </Stack.Navigator>
+    );
 }
 
 export default function HomeSN() {
-	return (
-		<NavigationContainer>
-			<HomeStack />
-		</NavigationContainer>
-	);
+    return (
+        <NavigationContainer>
+            <HomeStack />
+        </NavigationContainer>
+    );
 }
